@@ -1,0 +1,7 @@
+{
+  "name": "IonicZomato",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
