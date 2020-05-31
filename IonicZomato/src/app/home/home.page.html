@@ -13,66 +13,46 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="4">
-        <ion-item *ngIf="cozinhas">
-          <ion-label>Cuisine</ion-label>
-          <ion-select
-            #Cu
-            (ionChange)="selectCuisine(
-            Cu.value
-          )"
-          >
-            <ion-select-option
-              value="{{cuisine.cuisine.cuisine_id}}"
-              *ngFor="let cuisine of cozinhas.cuisines"
-              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
-            >
-          </ion-select>
-        </ion-item>
-      </ion-col>
+  <ion-img src="assets/imgs/wallpaper2.png"></ion-img>
+  <h1 class="xdTitles">Search</h1>
+  <h5 class="xdTitles">
+    Explore curated lists of top restaurants, cafes, pubs and bars in {{
+    cityText}}, based on trends
+  </h5>
 
-      <ion-col size="4">
-        <ion-item *ngIf="cozinhas">
-          <ion-label>Cuisine</ion-label>
-          <ion-select
-            #Cu
-            (ionChange)="selectCuisine(
-            Cu.value
-          )"
-          >
-            <ion-select-option
-              value="{{cuisine.cuisine.cuisine_id}}"
-              *ngFor="let cuisine of cozinhas.cuisines"
-              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
-            >
-          </ion-select>
-        </ion-item>
-      </ion-col>
+  <ion-item>
+    <ion-label class="xdTextStyles xdTitles">City</ion-label>
+    <ion-select #C (ionChange)="selectCityList(C.value)">
+      <ion-select-option value="Porto">Porto</ion-select-option>
+      <ion-select-option value="Lisbon">Lisboa</ion-select-option>
+      <ion-select-option value="Algarve">Algarve</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-col size="4">
-        <ion-item *ngIf="cozinhas">
-          <ion-label>Cuisine</ion-label>
-          <ion-select
-            #Cu
-            (ionChange)="selectCuisine(
-            Cu.value
-          )"
-          >
-            <ion-select-option
-              value="{{cuisine.cuisine.cuisine_id}}"
-              *ngFor="let cuisine of cozinhas.cuisines"
-              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
-            >
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-item *ngIf="category">
+    <ion-label class="xdTextStyles xdTitles">Categories</ion-label>
+    <ion-select #Ca (ionChange)="selectCategory(Ca.value)">
+      <ion-select-option
+        value="{{categorias.categories.id}}"
+        *ngFor="let categorias of category.categories"
+        >{{ categorias.categories.name}}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
 
-  <h1>Collections</h1>
-  <h2>Explore what your city has to offer!</h2>
+  <ion-item *ngIf="cozinhas">
+    <ion-label class="xdTextStyles xdTitles">Cuisine</ion-label>
+    <ion-select #Cu (ionChange)="selectCuisine(Cu.value)">
+      <ion-select-option
+        value="{{cuisine.cuisine.cuisine_id}}"
+        *ngFor="let cuisine of cozinhas.cuisines"
+        >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+
+  <h1 class="xdTitles">Collections</h1>
+  <h5 class="xdTitles">Explore what your city has to offer!</h5>
 
   <ion-slides [options]="sliderConfig" *ngIf="collection">
     <ion-slide *ngFor="let collections of collection.collections">
@@ -82,26 +62,28 @@
           [src]="collections.collection.image_url"
         ></ion-img>
         <ion-card-header>
-          <ion-card-title>{{ collections.collection.title }}</ion-card-title>
+          <ion-card-title class="xdTextStyles"
+            >{{ collections.collection.title }}</ion-card-title
+          >
         </ion-card-header>
 
-        <ion-card-content>
+        <ion-card-content class="xdTextStyles">
           {{ collections.collection.description }}
         </ion-card-content>
       </ion-card>
     </ion-slide>
   </ion-slides>
 
-  <h1>Categories</h1>
+  <h1 class="xdTitles">Categories</h1>
   <ion-slides [options]="sliderConfigThree" *ngIf="category">
     <ion-slide *ngFor="let categories of category.categories">
       <ion-img src="assets/imgs/category_{{ categories.categories.id }}.png">
       </ion-img>
-      <p class="xdTextUnder">{{ categories.categories.name }}</p>
+      <p class="xdTextStyles xdTextUnder">{{ categories.categories.name }}</p>
     </ion-slide>
   </ion-slides>
 
-  <h1>Best restaurants in town</h1>
+  <h1 class="xdTitles">Best restaurants in town</h1>
   <ion-slides [options]="sliderConfigTwo" *ngIf="restaurants">
     <ion-slide *ngFor="let restaurante of restaurants.restaurants">
       <ion-card>
@@ -112,17 +94,11 @@
           ></ion-img
         ></a>
         <ion-card-header>
-          <ion-card-title>{{ restaurante.restaurant.name }}</ion-card-title>
+          <ion-card-title class="xdTextStyles"
+            >{{ restaurante.restaurant.name }}</ion-card-title
+          >
         </ion-card-header>
       </ion-card>
     </ion-slide>
   </ion-slides>
 </ion-content>
-
-<ion-footer>
-  <ion-row class="category-banner">
-    <ion-col text-left button tappable>
-      <p>XD</p>
-    </ion-col>
-  </ion-row>
-</ion-footer>

@@ -1,5 +1,5 @@
 import { HomeService } from './home.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -39,7 +39,7 @@ export class HomePage implements OnInit {
   sliderConfigTwo = {
     spaceBetween: 10,
     centeredSlides: true,
-    slidesPerView: 1.4,
+    slidesPerView: 1.8,
   };
 
   sliderConfigThree = {
