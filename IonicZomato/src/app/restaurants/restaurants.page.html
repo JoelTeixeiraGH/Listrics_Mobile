@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Restaurants</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let restaurante of restaurantes">
+    <ion-img [src]="restaurante.restaurant.thumb"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle
+        >{{restaurante.restaurant.location.locality}}</ion-card-subtitle
+      >
+      <ion-card-title [routerLink]="['/restaurant/',restaurante.restaurant.id]"
+        >{{restaurante.restaurant.name}}</ion-card-title
+      >
+    </ion-card-header>
+    <ion-item>
+      <ion-label
+        >{{restaurante.restaurant.user_rating.aggregate_rating}}</ion-label
+      >
+      <ion-icon
+        name="star-outline"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 0 && 0.4 >= restaurante.restaurant.user_rating.aggregate_rating "
+      ></ion-icon>
+
+      <ion-icon
+        name="star-half"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 0.5 && 0.9 >= restaurante.restaurant.user_rating.aggregate_rating  "
+      ></ion-icon>
+
+      <ion-icon
+        name="star"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 1 && 1.4 >= restaurante.restaurant.user_rating.aggregate_rating ||restaurante.restaurant.user_rating.aggregate_rating >= 1.5  "
+      ></ion-icon>
+
+      <ion-icon
+        name="star-half"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 1.5 && 1.9 >= restaurante.restaurant.user_rating.aggregate_rating "
+      ></ion-icon>
+
+      <ion-icon
+        name="star"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 2 && 2.4 >= restaurante.restaurant.user_rating.aggregate_rating ||restaurante.restaurant.user_rating.aggregate_rating >= 2.5"
+      ></ion-icon>
+
+      <ion-icon
+        name="star-half"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 2.5 && 2.9 >= restaurante.restaurant.user_rating.aggregate_rating "
+      ></ion-icon>
+
+      <ion-icon
+        name="star"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 3 && 3.4 >=restaurante.restaurant.user_rating.aggregate_rating ||restaurante.restaurant.user_rating.aggregate_rating >= 3.5  "
+      ></ion-icon>
+
+      <ion-icon
+        name="star-half"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 3.5 && 3.9 >=restaurante.restaurant.user_rating.aggregate_rating"
+      ></ion-icon>
+
+      <ion-icon
+        name="star"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 4 &&  4.4 >=restaurante.restaurant.user_rating.aggregate_rating ||restaurante.restaurant.user_rating.aggregate_rating >= 4.5  "
+      ></ion-icon>
+
+      <ion-icon
+        name="star-half"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 4.5 &&  4.9 >= restaurante.restaurant.user_rating.aggregate_rating"
+      ></ion-icon>
+
+      <ion-icon
+        name="star"
+        *ngIf="restaurante.restaurant.user_rating.aggregate_rating == 5"
+      ></ion-icon>
+    </ion-item>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4"
+            ><p><b>Cuisines:</b></p></ion-col
+          >
+          <ion-col><p>{{restaurante.restaurant.cuisines}}</p></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4"
+            ><p><b>Cost for two:</b></p></ion-col
+          >
+          <ion-col
+            ><p>
+              {{restaurante.restaurant.average_cost_for_two|currency: "EUR"}}
+            </p></ion-col
+          >
+        </ion-row>
+        <ion-row>
+          <ion-col size="4"
+            ><p><b>Hours:</b></p></ion-col
+          >
+          <ion-col
+            ><p>
+              {{restaurante.restaurant.timings}}
+            </p></ion-col
+          >
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <nav aria-label="Page navigation ">
+    <ul class="pagination">
+      <li class="page-item" *ngFor="let page of pages">
+        <ion-button
+          class="page-link"
+          [ngClass]="{
+            selectPagination: this.currentPage === page
+          }"
+          (click)="pagination(page)"
+          >{{ page }}</ion-button
+        >
+      </li>
+    </ul>
+  </nav>
+</ion-content>
+<ion-footer>
+  <ion-item>
+    <ion-label>City</ion-label>
+    <ion-select #C (ionChange)="selectCityList(C.value)">
+      <ion-select-option value="Porto">Porto</ion-select-option>
+      <ion-select-option value="Lisbon">Lisboa</ion-select-option>
+      <ion-select-option value="Algarve">Algarve</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="categorias">
+    <ion-label>Categories</ion-label>
+    <ion-select #Ca (ionChange)="selectCategory(Ca.value)">
+      <ion-select-option
+        value="{{category.categories.id}}"
+        *ngFor="let category of categorias.categories"
+        >{{ category.categories.name}}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="cozinhas">
+    <ion-label>Cuisine</ion-label>
+    <ion-select
+      #Cu
+      (ionChange)="selectCuisine(
+      Cu.value
+    )"
+    >
+      <ion-select-option
+        value="{{cuisine.cuisine.cuisine_id}}"
+        *ngFor="let cuisine of cozinhas.cuisines"
+        >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+  <ion-button [routerLink]="['/home']"> Back</ion-button>
+</ion-footer>

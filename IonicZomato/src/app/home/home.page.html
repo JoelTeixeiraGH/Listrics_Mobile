@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Listrics
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,120 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Listrics</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-item *ngIf="cozinhas">
+          <ion-label>Cuisine</ion-label>
+          <ion-select
+            #Cu
+            (ionChange)="selectCuisine(
+            Cu.value
+          )"
+          >
+            <ion-select-option
+              value="{{cuisine.cuisine.cuisine_id}}"
+              *ngFor="let cuisine of cozinhas.cuisines"
+              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="4">
+        <ion-item *ngIf="cozinhas">
+          <ion-label>Cuisine</ion-label>
+          <ion-select
+            #Cu
+            (ionChange)="selectCuisine(
+            Cu.value
+          )"
+          >
+            <ion-select-option
+              value="{{cuisine.cuisine.cuisine_id}}"
+              *ngFor="let cuisine of cozinhas.cuisines"
+              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="4">
+        <ion-item *ngIf="cozinhas">
+          <ion-label>Cuisine</ion-label>
+          <ion-select
+            #Cu
+            (ionChange)="selectCuisine(
+            Cu.value
+          )"
+          >
+            <ion-select-option
+              value="{{cuisine.cuisine.cuisine_id}}"
+              *ngFor="let cuisine of cozinhas.cuisines"
+              >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <h1>Collections</h1>
+  <h2>Explore what your city has to offer!</h2>
+
+  <ion-slides [options]="sliderConfig" *ngIf="collection">
+    <ion-slide *ngFor="let collections of collection.collections">
+      <ion-card>
+        <ion-img
+          class="xdCropCollections"
+          [src]="collections.collection.image_url"
+        ></ion-img>
+        <ion-card-header>
+          <ion-card-title>{{ collections.collection.title }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          {{ collections.collection.description }}
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <h1>Categories</h1>
+  <ion-slides [options]="sliderConfigThree" *ngIf="category">
+    <ion-slide *ngFor="let categories of category.categories">
+      <ion-img src="assets/imgs/category_{{ categories.categories.id }}.png">
+      </ion-img>
+      <p class="xdTextUnder">{{ categories.categories.name }}</p>
+    </ion-slide>
+  </ion-slides>
+
+  <h1>Best restaurants in town</h1>
+  <ion-slides [options]="sliderConfigTwo" *ngIf="restaurants">
+    <ion-slide *ngFor="let restaurante of restaurants.restaurants">
+      <ion-card>
+        <a routerLink="/restaurant/{{ restaurante.restaurant.id }}">
+          <ion-img
+            class="xdSizeImage"
+            [src]="restaurante.restaurant.thumb"
+          ></ion-img
+        ></a>
+        <ion-card-header>
+          <ion-card-title>{{ restaurante.restaurant.name }}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
+
+<ion-footer>
+  <ion-row class="category-banner">
+    <ion-col text-left button tappable>
+      <p>XD</p>
+    </ion-col>
+  </ion-row>
+</ion-footer>

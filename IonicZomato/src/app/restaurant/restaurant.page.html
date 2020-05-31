@@ -1,0 +1,248 @@
+<ion-header>
+  <ion-toolbar *ngIf="solorestaurante">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <br />
+    <ion-title>{{solorestaurante.name}}</ion-title><br />
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="solorestaurante">
+  <ion-img [src]="solorestaurante.featured_image"></ion-img>
+  <ion-item>
+    <ion-label>{{solorestaurante.user_rating.aggregate_rating}}</ion-label>
+    <ion-icon
+      name="star-outline"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 0 && 0.4 >= solorestaurante.user_rating.aggregate_rating "
+    ></ion-icon>
+
+    <ion-icon
+      name="star-half"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 0.5 && 0.9 >= solorestaurante.user_rating.aggregate_rating  "
+    ></ion-icon>
+
+    <ion-icon
+      name="star"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 1 && 1.4 >= solorestaurante.user_rating.aggregate_rating ||solorestaurante.user_rating.aggregate_rating >= 1.5  "
+    ></ion-icon>
+
+    <ion-icon
+      name="star-half"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 1.5 && 1.9 >=solorestaurante.user_rating.aggregate_rating "
+    ></ion-icon>
+
+    <ion-icon
+      name="star"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 2 && 2.4 >= solorestaurante.user_rating.aggregate_rating ||solorestaurante.user_rating.aggregate_rating >= 2.5"
+    ></ion-icon>
+
+    <ion-icon
+      name="star-half"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 2.5 && 2.9 >= solorestaurante.user_rating.aggregate_rating "
+    ></ion-icon>
+
+    <ion-icon
+      name="star"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 3 && 3.4 >=solorestaurante.user_rating.aggregate_rating ||solorestaurante.user_rating.aggregate_rating >= 3.5  "
+    ></ion-icon>
+
+    <ion-icon
+      name="star-half"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 3.5 && 3.9 >=solorestaurante.user_rating.aggregate_rating"
+    ></ion-icon>
+
+    <ion-icon
+      name="star"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 4 &&  4.4 >=solorestaurante.user_rating.aggregate_rating ||solorestaurante.user_rating.aggregate_rating >= 4.5  "
+    ></ion-icon>
+
+    <ion-icon
+      name="star-half"
+      *ngIf="solorestaurante.user_rating.aggregate_rating >= 4.5 &&  4.9 >= solorestaurante.user_rating.aggregate_rating"
+    ></ion-icon>
+
+    <ion-icon
+      name="star"
+      *ngIf="solorestaurante.user_rating.aggregate_rating == 5"
+    ></ion-icon>
+  </ion-item>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Address:</b></p></ion-col
+        >
+        <ion-col
+          ><p>
+            {{ solorestaurante.location.address }}
+          </p></ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Cuisines:</b></p></ion-col
+        >
+        <ion-col
+          ><p>
+            {{solorestaurante.cuisines}}
+          </p></ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Cost for two:</b></p></ion-col
+        >
+        <ion-col
+          ><p>
+            {{solorestaurante.average_cost_for_two|currency:"EUR"}}
+          </p></ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Hours:</b></p></ion-col
+        >
+        <ion-col
+          ><p *ngFor="let hour of solorestaurantexd">
+            {{hour}}
+          </p></ion-col
+        >
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Highlights</b></p></ion-col
+        >
+        <ion-col
+          ><p *ngFor="let highlights of solorestaurante.highlights">
+            {{ highlights }}
+          </p></ion-col
+        >
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="5"
+          ><p><b>Contact</b></p></ion-col
+        >
+        <ion-col
+          ><p>
+            {{ solorestaurante.phone_numbers }}
+          </p></ion-col
+        >
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-item><h2>Reviews</h2></ion-item>
+
+  <ion-card *ngFor="let review of reviews">
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3">
+            <ion-avatar>
+              <ion-img [src]="review.review.user.profile_image"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="9">
+            <p class="xdFloat">
+              <b>{{ review.review.user.name }}</b>,
+              {{review.review.review_time_friendly }}
+            </p>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <p>{{ review.review.review_text }}</p>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <div class="xdFloat">
+              <ion-icon
+                name="star-outline"
+                *ngIf="review.review.rating >= 0 && 0.4 >= review.review.rating "
+              ></ion-icon>
+
+              <ion-icon
+                name="star-half"
+                *ngIf="review.review.rating >= 0.5 && 0.9 >= review.review.rating  "
+              ></ion-icon>
+
+              <ion-icon
+                name="star"
+                *ngIf="review.review.rating >= 1 && 1.4 >= review.review.rating ||review.review.rating >= 1.5  "
+              ></ion-icon>
+
+              <ion-icon
+                name="star-half"
+                *ngIf="review.review.rating >= 1.5 && 1.9 >=review.review.rating "
+              ></ion-icon>
+
+              <ion-icon
+                name="star"
+                *ngIf="review.review.rating >= 2 && 2.4 >= review.review.rating ||review.review.rating >= 2.5"
+              ></ion-icon>
+
+              <ion-icon
+                name="star-half"
+                *ngIf="review.review.rating >= 2.5 && 2.9 >= review.review.rating "
+              ></ion-icon>
+
+              <ion-icon
+                name="star"
+                *ngIf="review.review.rating >= 3 && 3.4 >=review.review.rating ||review.review.rating >= 3.5  "
+              ></ion-icon>
+
+              <ion-icon
+                name="star-half"
+                *ngIf="review.review.rating >= 3.5 && 3.9 >=review.review.rating"
+              ></ion-icon>
+
+              <ion-icon
+                name="star"
+                *ngIf="review.review.rating >= 4 &&  4.4 >=review.review.rating ||review.review.rating >= 4.5  "
+              ></ion-icon>
+
+              <ion-icon
+                name="star-half"
+                *ngIf="review.review.rating >= 4.5 &&  4.9 >= review.review.rating"
+              ></ion-icon>
+
+              <ion-icon
+                name="star"
+                *ngIf="review.review.rating == 5"
+              ></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-card>
+  <nav aria-label="Page navigation ">
+    <ul class="pagination">
+      <li class="page-item" *ngFor="let page of pages">
+        <ion-button
+          class="page-link"
+          [ngClass]="{
+            selectPagination: this.currentPage === page
+          }"
+          (click)="pagination(page)"
+          >{{ page }}</ion-button
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <ion-item>
+    <h2>Write a Review & Rate the establishment</h2>
+  </ion-item>
+  <ion-card>
+    <ion-input placeholder="Write your review here..."></ion-input>
+    <br />
+    <ion-button class="xdFloat xdMargin">Submit</ion-button>
+  </ion-card>
+</ion-content>
