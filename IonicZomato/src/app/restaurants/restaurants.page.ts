@@ -30,6 +30,8 @@ export class RestaurantsPage implements OnInit {
   paginationCount = 20;
   results = 100;
 
+  xdExpand = 0;
+
   constructor(
     private restaurantService: RestaurantsService,
     private route: ActivatedRoute
@@ -39,6 +41,14 @@ export class RestaurantsPage implements OnInit {
     this.initCurrent();
     this.getCategories();
     this.getCuisines();
+  }
+
+  yesExpand() {
+    if (this.xdExpand === 1) {
+      this.xdExpand = 0;
+    } else {
+      this.xdExpand = 1;
+    }
   }
 
   selectCategory(category: string) {

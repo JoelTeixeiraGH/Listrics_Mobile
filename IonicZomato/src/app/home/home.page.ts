@@ -60,6 +60,15 @@ export class HomePage implements OnInit {
     this.searchRestaurants();
   }
 
+  /*
+  xdTestButton(xd: string, xdd: string, xddd: string) {
+    this.optionCity = xd;
+    this.optionCategory = xdd;
+    this.optionCuisine = xddd;
+    alert(this.optionCity + this.optionCategory + this.optionCuisine);
+  }
+  */
+
   searchCollections() {
     this.landingService
       .searchCollections(this.cityID)
@@ -122,5 +131,18 @@ export class HomePage implements OnInit {
     this.searchCuisines();
     this.searchCollections();
     this.searchRestaurants();
+  }
+
+  selectCategory(category: string) {
+    this.optionCategory = category;
+  }
+
+  selectCuisine(cuisine: string) {
+    this.optionCuisine = cuisine;
+  }
+
+  resetAfterRouting() {
+    this.optionCategory = '';
+    this.optionCuisine = '';
   }
 }

@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Restaurants</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -106,56 +109,66 @@
     </ion-card-content>
   </ion-card>
 
-  <nav aria-label="Page navigation ">
-    <ul class="pagination">
-      <li class="page-item" *ngFor="let page of pages">
-        <ion-button
-          class="page-link"
-          [ngClass]="{
+  <div>
+    <nav aria-label="Page navigation ">
+      <ul class="pagination xdPagination">
+        <li class="page-item" *ngFor="let page of pages">
+          <ion-button
+            class="page-link"
+            [ngClass]="{
             selectPagination: this.currentPage === page
           }"
-          (click)="pagination(page)"
-          >{{ page }}</ion-button
-        >
-      </li>
-    </ul>
-  </nav>
+            (click)="pagination(page)"
+            >{{ page }}</ion-button
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
 </ion-content>
 <ion-footer>
-  <ion-item>
-    <ion-label>City</ion-label>
-    <ion-select #C (ionChange)="selectCityList(C.value)">
-      <ion-select-option value="Porto">Porto</ion-select-option>
-      <ion-select-option value="Lisbon">Lisboa</ion-select-option>
-      <ion-select-option value="Algarve">Algarve</ion-select-option>
-    </ion-select>
-  </ion-item>
+  <div *ngIf="xdExpand === 1">
+    <ion-item>
+      <ion-label>City</ion-label>
+      <ion-select [(ngModel)]="cityText" (ionChange)="selectCityList(cityText)">
+        <ion-select-option value="Porto">Porto</ion-select-option>
+        <ion-select-option value="Lisbon">Lisboa</ion-select-option>
+        <ion-select-option value="Algarve">Algarve</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-  <ion-item *ngIf="categorias">
-    <ion-label>Categories</ion-label>
-    <ion-select #Ca (ionChange)="selectCategory(Ca.value)">
-      <ion-select-option
-        value="{{category.categories.id}}"
-        *ngFor="let category of categorias.categories"
-        >{{ category.categories.name}}</ion-select-option
+    <ion-item *ngIf="categorias">
+      <ion-label>Categories</ion-label>
+      <ion-select
+        [(ngModel)]="categoryQ"
+        (ionChange)="selectCategory(categoryQ)"
       >
-    </ion-select>
-  </ion-item>
+        <ion-select-option
+          value="{{category.categories.id}}"
+          *ngFor="let category of categorias.categories"
+          >{{ category.categories.name}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
 
-  <ion-item *ngIf="cozinhas">
-    <ion-label>Cuisine</ion-label>
-    <ion-select
-      #Cu
-      (ionChange)="selectCuisine(
-      Cu.value
-    )"
-    >
-      <ion-select-option
-        value="{{cuisine.cuisine.cuisine_id}}"
-        *ngFor="let cuisine of cozinhas.cuisines"
-        >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
-      >
-    </ion-select>
-  </ion-item>
-  <ion-button [routerLink]="['/home']"> Back</ion-button>
+    <ion-item *ngIf="cozinhas">
+      <ion-label>Cuisine</ion-label>
+      <ion-select [(ngModel)]="cuisineQ" (ionChange)="selectCuisine(cuisineQ)">
+        <ion-select-option
+          value="{{cuisine.cuisine.cuisine_id}}"
+          *ngFor="let cuisine of cozinhas.cuisines"
+          >{{ cuisine.cuisine.cuisine_name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-button (click)="resetFilters()" expand="full"
+      ><ion-icon name="refresh-outline"></ion-icon
+    ></ion-button>
+  </div>
+
+  <ion-button expand="full" (click)="yesExpand()">
+    <ion-icon *ngIf="xdExpand === 0" name="chevron-up-outline"></ion-icon>
+    <ion-icon *ngIf="xdExpand === 1" name="chevron-down-outline"></ion-icon>
+  </ion-button>
 </ion-footer>

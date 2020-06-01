@@ -22,7 +22,7 @@
 
   <ion-item>
     <ion-label class="xdTextStyles xdTitles">City</ion-label>
-    <ion-select #C (ionChange)="selectCityList(C.value)">
+    <ion-select [(ngModel)]="cityText" (ionChange)="selectCity2(cityText)">
       <ion-select-option value="Porto">Porto</ion-select-option>
       <ion-select-option value="Lisbon">Lisboa</ion-select-option>
       <ion-select-option value="Algarve">Algarve</ion-select-option>
@@ -31,7 +31,7 @@
 
   <ion-item *ngIf="category">
     <ion-label class="xdTextStyles xdTitles">Categories</ion-label>
-    <ion-select #Ca (ionChange)="selectCategory(Ca.value)">
+    <ion-select [(ngModel)]="optionCategory">
       <ion-select-option
         value="{{categorias.categories.id}}"
         *ngFor="let categorias of category.categories"
@@ -42,7 +42,7 @@
 
   <ion-item *ngIf="cozinhas">
     <ion-label class="xdTextStyles xdTitles">Cuisine</ion-label>
-    <ion-select #Cu (ionChange)="selectCuisine(Cu.value)">
+    <ion-select [(ngModel)]="optionCuisine">
       <ion-select-option
         value="{{cuisine.cuisine.cuisine_id}}"
         *ngFor="let cuisine of cozinhas.cuisines"
@@ -50,6 +50,27 @@
       >
     </ion-select>
   </ion-item>
+  <ion-row>
+    <ion-col size="6">
+      <ion-button
+        (click)="resetAfterRouting()"
+        expand="full"
+        [routerLink]="[
+      '/restaurants',
+      cityID,
+      optionCategory,
+      optionCuisine
+    ]"
+      >
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="unselect()" expand="full"
+        ><ion-icon name="refresh-outline"></ion-icon
+      ></ion-button>
+    </ion-col>
+  </ion-row>
 
   <h1 class="xdTitles">Collections</h1>
   <h5 class="xdTitles">Explore what your city has to offer!</h5>

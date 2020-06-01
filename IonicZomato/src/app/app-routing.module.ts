@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'restaurants',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -31,6 +31,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./restaurant/restaurant.module').then(
         (m) => m.RestaurantPageModule
+      ),
+  },
+  {
+    path: 'restaurants/:city_id/:categoryQ/:cuisineQ',
+    loadChildren: () =>
+      import('./restaurants/restaurants.module').then(
+        (m) => m.RestaurantsPageModule
       ),
   },
 ];
