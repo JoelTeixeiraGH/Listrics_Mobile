@@ -1,6 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
 import { RestaurantService } from './restaurant.service';
 import { Component, OnInit } from '@angular/core';
+import { Photos } from './photos';
+import { PHOTOS } from './mocks';
+import * as R from 'ramda';
 
 @Component({
   selector: 'app-restaurant',
@@ -11,10 +14,12 @@ export class RestaurantPage implements OnInit {
   solorestaurante: any;
   solorestaurantexd: any;
   menudiario: any;
-  reviews: any;
+  reviews = []; // Array dentro de array
+  allReviews = []; // Lista de comentarios
   resID: string;
   badRequest: boolean;
   panelOpenState = false;
+  photos: Photos[];
 
   pages: number[];
   currentPage = 1;
@@ -22,42 +27,35 @@ export class RestaurantPage implements OnInit {
   paginationCount = 10;
   results = 20;
 
+  segment = '';
+
   constructor(
     private restaurantsoloService: RestaurantService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.segment = 'overview';
+  }
 
   ngOnInit(): void {
+    this.photos = PHOTOS;
     this.initCurrentSoloRestaurant();
     this.searchReviews();
     this.searchDailyMenu();
-  }
-
-  set_pages() {
-    this.pages = new Array();
-    const num = Math.ceil(this.results / this.paginationCount);
-    for (let i = 1; i <= num; i++) {
-      this.pages.push(i);
-    }
-  }
-
-  pagination(page: number) {
-    this.paginationStart = (page - 1) * this.paginationCount;
-    this.currentPage = page;
-    this.searchReviews();
   }
 
   searchReviews() {
     this.restaurantsoloService
       .searchReviews(this.resID, this.paginationStart, this.paginationCount)
       .subscribe((result) => {
-        this.reviews = result.user_reviews;
-        // pagination
-        if (result.reviews_count <= 20) {
-          this.results = result.reviews_count;
-        }
-        this.set_pages();
+        this.xdPushas(result);
       });
+  }
+
+  xdPushas(result) {
+    this.reviews.push(result.user_reviews);
+    /*https://ramdajs.com/docs/#flatten
+     Returns a new list by pulling every item out of it (and all its sub-arrays) and putting them in a new array, depth-first.*/
+    this.allReviews = R.flatten(this.reviews);
   }
 
   searchSoloRestaurant() {
@@ -93,5 +91,13 @@ export class RestaurantPage implements OnInit {
         this.solorestaurante = response;
         this.parseHours(response.timings);
       });
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      this.paginationStart += 10;
+      this.searchReviews();
+      event.target.complete();
+    }, 500);
   }
 }

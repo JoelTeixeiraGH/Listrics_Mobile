@@ -1,6 +1,8 @@
 import { HomeService } from './home.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Photos } from './photos';
+import { PHOTOS } from './mocks';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,8 @@ export class HomePage implements OnInit {
   categoriaDrop: string;
   cidadeDrop: string;
   cozinhaDrop: string;
+
+  photos: Photos[];
 
   cityID = '311'; // Porto
   countLanding = 8;
@@ -54,6 +58,7 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.photos = PHOTOS;
     this.initCurrentCollections();
     this.searchCategories();
     this.searchCuisines();

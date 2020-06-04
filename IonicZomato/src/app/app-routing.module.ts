@@ -40,6 +40,21 @@ const routes: Routes = [
         (m) => m.RestaurantsPageModule
       ),
   },
+
+  {
+    path: 'restaurants/:city_id/:categoryQ',
+    loadChildren: () =>
+      import('./restaurants/restaurants.module').then(
+        (m) => m.RestaurantsPageModule
+      ),
+  },
+  {
+    path: 'restaurants/:city_id',
+    loadChildren: () =>
+      import('./restaurants/restaurants.module').then(
+        (m) => m.RestaurantsPageModule
+      ),
+  },
 ];
 
 @NgModule({

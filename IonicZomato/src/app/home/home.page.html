@@ -96,11 +96,13 @@
   </ion-slides>
 
   <h1 class="xdTitles">Categories</h1>
-  <ion-slides [options]="sliderConfigThree" *ngIf="category">
-    <ion-slide *ngFor="let categories of category.categories">
-      <ion-img src="assets/imgs/category_{{ categories.categories.id }}.png">
-      </ion-img>
-      <p class="xdTextStyles xdTextUnder">{{ categories.categories.name }}</p>
+  <ion-slides [options]="sliderConfigThree">
+    <ion-slide *ngFor="let photo of photos">
+      <ion-card>
+        <ion-img [src]="photo.image"></ion-img>
+
+        <p>{{photo.name}}</p>
+      </ion-card>
     </ion-slide>
   </ion-slides>
 

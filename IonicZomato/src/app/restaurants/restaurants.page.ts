@@ -1,6 +1,8 @@
 import { RestaurantsService } from './restaurants.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as R from 'ramda';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-restaurants',
@@ -8,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./restaurants.page.scss'],
 })
 export class RestaurantsPage implements OnInit {
-  restaurantes: any;
+  restaurantes = []; // Array dentro de array
+  allRestaurantes = []; // Lista de comentarios
   categorias: any;
   cozinhas: any;
   cityAndCategory: any;
@@ -53,35 +56,15 @@ export class RestaurantsPage implements OnInit {
 
   selectCategory(category: string) {
     this.categoryQ = category;
-    this.currentPage = 1;
+    this.paginationStart = 0;
     this.getRestaurantByCCC();
   }
-
-  /*
-  selectCategory(category: string, categoryT: string) {
-    this.categoryQ = category;
-    this.categoryText = categoryT;
-    this.currentPage = 1;
-    this.getRestaurantByCCC();
-  }
-  */
 
   selectCuisine(cuisine: string) {
     this.cuisineQ = cuisine;
-    this.currentPage = 1;
+    this.paginationStart = 0;
     this.getRestaurantByCCC();
   }
-
-  /*
-   selectCuisine(cuisine: string, cuisineT: string) {
-    this.cuisineQ = cuisine;
-    this.cuisineText = cuisineT;
-    this.currentPage = 1;
-    this.getRestaurantByCCC();
-    alert(cuisine);
-    alert(cuisineT);
-  }
-  */
 
   resetFilters() {
     this.cuisineQ = '';
@@ -89,7 +72,6 @@ export class RestaurantsPage implements OnInit {
     this.categoryText = '';
     this.cuisineText = '';
     this.paginationStart = 0;
-    this.currentPage = 1;
     this.getRestaurantByCCC();
   }
 
@@ -114,22 +96,8 @@ export class RestaurantsPage implements OnInit {
 
   selectCityList(city: string) {
     this.selectCity(city);
-    this.currentPage = 1;
+    this.paginationStart = 0;
     this.getRestaurantByCCC();
-  }
-
-  set_pages() {
-    this.pages = new Array();
-    const num = Math.ceil(this.results / this.paginationCount);
-    for (let i = 1; i <= num; i++) {
-      this.pages.push(i);
-    }
-  }
-
-  pagination(page: number) {
-    this.paginationStart = (page - 1) * this.paginationCount;
-    this.getRestaurantByCCC();
-    this.currentPage = page;
   }
 
   getRestaurantByCCC() {
@@ -141,18 +109,13 @@ export class RestaurantsPage implements OnInit {
         this.paginationStart,
         this.paginationCount
       )
-      .subscribe((result) => {
-        this.restaurantes = result.restaurants;
-        // pagination
-        if (result.results_found <= 100) {
-          this.results = result.results_found;
-        } else {
-          this.results = 100;
-        }
-        this.paginationStart = 0;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-        this.set_pages();
-      });
+      .subscribe(
+        (result) => {
+          this.restaurantes = result.restaurants;
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        },
+        (error) => console.log(error)
+      );
   }
 
   getCategories() {
@@ -167,14 +130,27 @@ export class RestaurantsPage implements OnInit {
       .subscribe((response) => (this.cozinhas = response));
   }
 
+  xdPushas(result) {
+    this.restaurantes.push(result.restaurants);
+    /*https://ramdajs.com/docs/#flatten
+     Returns a new list by pulling every item out of it (and all its sub-arrays) and putting them in a new array, depth-first.*/
+    //this.allReviews = R.flatten(this.reviews);
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      this.paginationStart += 20;
+      this.getRestaurantByCCC();
+      event.target.complete();
+    }, 500);
+  }
+
   initCurrent() {
     const id = this.route.snapshot.paramMap.get('city_id');
     const idCategory = this.route.snapshot.paramMap.get('categoryQ');
     const idCuisine = this.route.snapshot.paramMap.get('cuisineQ');
 
-    if (id != null) {
-      this.selectCity(id);
-    }
+    id && this.selectCity(id);
     this.categoryQ = idCategory;
     this.cuisineQ = idCuisine;
 
@@ -189,10 +165,6 @@ export class RestaurantsPage implements OnInit {
       .subscribe((result) => {
         this.restaurantes = result.restaurants;
         // pagination
-        if (result.results_found <= 100) {
-          this.results = result.results_found;
-        }
-        this.set_pages();
       });
   }
 }
