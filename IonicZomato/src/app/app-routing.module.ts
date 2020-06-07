@@ -40,13 +40,22 @@ const routes: Routes = [
         (m) => m.RestaurantsPageModule
       ),
   },
-
   {
     path: 'restaurants/:city_id/:categoryQ',
     loadChildren: () =>
       import('./restaurants/restaurants.module').then(
         (m) => m.RestaurantsPageModule
       ),
+  },
+  {
+    path: 'home/:city_id/:categoryQ',
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomePageModule),
+  },
+  {
+    path: 'home/:cityText',
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: 'restaurants/:city_id',

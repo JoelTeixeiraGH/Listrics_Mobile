@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar *ngIf="solorestaurante">
-    <ion-buttons slot="start"><ion-back-button></ion-back-button></ion-buttons>
+    <ion-buttons slot="start">
+      <ion-icon
+        routerLink="/restaurants"
+        name="chevron-back-outline"
+      ></ion-icon>
+    </ion-buttons>
     <br />
     <ion-title>{{solorestaurante.name}}</ion-title><br />
   </ion-toolbar>
@@ -75,9 +80,6 @@
     </ion-segment-button>
     <ion-segment-button value="photos">
       Photos
-    </ion-segment-button>
-    <ion-segment-button value="xd">
-      xd
     </ion-segment-button>
   </ion-segment>
 
@@ -182,124 +184,122 @@
         <ion-img [src]="photo.image"></ion-img>
       </ion-card-content>
     </ion-card>
-
-    <ion-card *ngSwitchCase="'xd'">
-      <ion-card-header>
-        Change Password
-      </ion-card-header>
-      <ion-card-content>
-        Your change password form here
-      </ion-card-content>
-    </ion-card>
   </div>
 
   <ion-item>
     <h2>Write a Review & Rate the establishment</h2>
   </ion-item>
   <ion-card>
+    <rating [(rating)]="rating"></rating>
+    <div style="padding: 10px;">
+      <ion-icon
+        name="star"
+        *ngFor="let num of [1,2,3,4,5]"
+        (click)="rate(num)"
+        [ngStyle]="{'color':getColor(num)}"
+      >
+      </ion-icon>
+    </div>
     <ion-input placeholder="Write your review here..."></ion-input>
     <br />
     <ion-button class="xdFloat xdMargin">Submit</ion-button>
   </ion-card>
 
-  <!--
   <ion-item><h2 class="xdTitles">Reviews</h2></ion-item>
-  <ion-card *ngFor="let review of reviews">
-    <ion-item>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="3">
-            <ion-avatar>
-              <ion-img [src]="review.review.user.profile_image"></ion-img>
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="9">
-            <p class="xdFloat">
-              <b>{{ review.review.user.name }}</b>,
-              {{review.review.review_time_friendly }}
-            </p>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="12">
-            <p>{{ review.review.review_text }}</p>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col size="12">
-            <div class="xdFloat">
-              <ion-icon
-                name="star-outline"
-                *ngIf="review.review.rating >= 0 && 0.4 >= review.review.rating "
-              ></ion-icon>
-
-              <ion-icon
-                name="star-half"
-                *ngIf="review.review.rating >= 0.5 && 0.9 >= review.review.rating  "
-              ></ion-icon>
-
-              <ion-icon
-                name="star"
-                *ngIf="review.review.rating >= 1 && 1.4 >= review.review.rating ||review.review.rating >= 1.5  "
-              ></ion-icon>
-
-              <ion-icon
-                name="star-half"
-                *ngIf="review.review.rating >= 1.5 && 1.9 >=review.review.rating "
-              ></ion-icon>
-
-              <ion-icon
-                name="star"
-                *ngIf="review.review.rating >= 2 && 2.4 >= review.review.rating ||review.review.rating >= 2.5"
-              ></ion-icon>
-
-              <ion-icon
-                name="star-half"
-                *ngIf="review.review.rating >= 2.5 && 2.9 >= review.review.rating "
-              ></ion-icon>
-
-              <ion-icon
-                name="star"
-                *ngIf="review.review.rating >= 3 && 3.4 >=review.review.rating ||review.review.rating >= 3.5  "
-              ></ion-icon>
-
-              <ion-icon
-                name="star-half"
-                *ngIf="review.review.rating >= 3.5 && 3.9 >=review.review.rating"
-              ></ion-icon>
-
-              <ion-icon
-                name="star"
-                *ngIf="review.review.rating >= 4 &&  4.4 >=review.review.rating ||review.review.rating >= 4.5  "
-              ></ion-icon>
-
-              <ion-icon
-                name="star-half"
-                *ngIf="review.review.rating >= 4.5 &&  4.9 >= review.review.rating"
-              ></ion-icon>
-
-              <ion-icon
-                name="star"
-                *ngIf="review.review.rating == 5"
-              ></ion-icon>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-card>
-    -->
-  <p>xdxdxd</p>
   <ion-list *ngFor="let review of allReviews">
-    <p class="xdFloat">
-      <b>{{ review.review.user.name }}</b>, {{review.review.review_time_friendly
-      }}
-    </p>
+    <ion-card>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+              <ion-avatar>
+                <ion-img [src]="review.review.user.profile_image"></ion-img>
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="9">
+              <p class="xdFloat">
+                <b>{{ review.review.user.name }}</b>,
+                {{review.review.review_time_friendly }}
+              </p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <p>{{ review.review.review_text }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <div class="xdFloat">
+                <ion-icon
+                  name="star-outline"
+                  *ngIf="review.review.rating >= 0 && 0.4 >= review.review.rating "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star-half"
+                  *ngIf="review.review.rating >= 0.5 && 0.9 >= review.review.rating  "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star"
+                  *ngIf="review.review.rating >= 1 && 1.4 >= review.review.rating ||review.review.rating >= 1.5  "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star-half"
+                  *ngIf="review.review.rating >= 1.5 && 1.9 >=review.review.rating "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star"
+                  *ngIf="review.review.rating >= 2 && 2.4 >= review.review.rating ||review.review.rating >= 2.5"
+                ></ion-icon>
+
+                <ion-icon
+                  name="star-half"
+                  *ngIf="review.review.rating >= 2.5 && 2.9 >= review.review.rating "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star"
+                  *ngIf="review.review.rating >= 3 && 3.4 >=review.review.rating ||review.review.rating >= 3.5  "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star-half"
+                  *ngIf="review.review.rating >= 3.5 && 3.9 >=review.review.rating"
+                ></ion-icon>
+
+                <ion-icon
+                  name="star"
+                  *ngIf="review.review.rating >= 4 &&  4.4 >=review.review.rating ||review.review.rating >= 4.5  "
+                ></ion-icon>
+
+                <ion-icon
+                  name="star-half"
+                  *ngIf="review.review.rating >= 4.5 &&  4.9 >= review.review.rating"
+                ></ion-icon>
+
+                <ion-icon
+                  name="star"
+                  *ngIf="review.review.rating == 5"
+                ></ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-card>
   </ion-list>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadData($event)"
+    [disabled]="disableInfinite"
+  >
     <ion-infinite-scroll-content loadingSpinner="bubbles">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

@@ -77,7 +77,7 @@
 
   <ion-slides [options]="sliderConfig" *ngIf="collection">
     <ion-slide *ngFor="let collections of collection.collections">
-      <ion-card>
+      <ion-card class="xdIon-cardR">
         <ion-img
           class="xdCropCollections"
           [src]="collections.collection.image_url"
@@ -98,10 +98,11 @@
   <h1 class="xdTitles">Categories</h1>
   <ion-slides [options]="sliderConfigThree">
     <ion-slide *ngFor="let photo of photos">
-      <ion-card>
-        <ion-img [src]="photo.image"></ion-img>
-
-        <p>{{photo.name}}</p>
+      <ion-card class="xdIon-card">
+        <a [routerLink]="['/restaurants',city_text,photo.id]">
+          <img [src]="photo.image" />
+          <p>{{photo.name}}</p>
+        </a>
       </ion-card>
     </ion-slide>
   </ion-slides>
@@ -109,18 +110,14 @@
   <h1 class="xdTitles">Best restaurants in town</h1>
   <ion-slides [options]="sliderConfigTwo" *ngIf="restaurants">
     <ion-slide *ngFor="let restaurante of restaurants.restaurants">
-      <ion-card>
+      <ion-card class="xdIon-cardB">
         <a routerLink="/restaurant/{{ restaurante.restaurant.id }}">
           <ion-img
             class="xdSizeImage"
             [src]="restaurante.restaurant.thumb"
-          ></ion-img
-        ></a>
-        <ion-card-header>
-          <ion-card-title class="xdTextStyles"
-            >{{ restaurante.restaurant.name }}</ion-card-title
-          >
-        </ion-card-header>
+          ></ion-img>
+          <p>{{ restaurante.restaurant.name }}</p>
+        </a>
       </ion-card>
     </ion-slide>
   </ion-slides>

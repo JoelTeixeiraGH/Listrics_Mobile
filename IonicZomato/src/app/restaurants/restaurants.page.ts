@@ -1,8 +1,6 @@
 import { RestaurantsService } from './restaurants.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as R from 'ramda';
-import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-restaurants',
@@ -32,6 +30,10 @@ export class RestaurantsPage implements OnInit {
   paginationStart = 0;
   paginationCount = 20;
   results = 100;
+
+  controlaLoad = 10000;
+  firstTime = true;
+  disableInfinite = false;
 
   xdExpand = 0;
 
@@ -109,13 +111,27 @@ export class RestaurantsPage implements OnInit {
         this.paginationStart,
         this.paginationCount
       )
-      .subscribe(
-        (result) => {
-          this.restaurantes = result.restaurants;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        },
-        (error) => console.log(error)
-      );
+      .subscribe((result) => {
+        this.restaurantes = result.restaurants;
+
+        if (this.firstTime && result.results_found <= 20) {
+          this.controlaLoad = 0;
+          this.firstTime = false;
+          this.disableInfinite = true;
+        } else if (this.firstTime && result.results_found <= 40) {
+          this.controlaLoad = 1;
+          this.firstTime = false;
+        } else if (this.firstTime && result.results_found <= 60) {
+          this.controlaLoad = 2;
+          this.firstTime = false;
+        } else if (this.firstTime && result.results_found <= 80) {
+          this.controlaLoad = 3;
+          this.firstTime = false;
+        } else if (this.firstTime && result.results_found > 80) {
+          this.controlaLoad = 4;
+          this.firstTime = false;
+        }
+      });
   }
 
   getCategories() {
@@ -132,17 +148,18 @@ export class RestaurantsPage implements OnInit {
 
   xdPushas(result) {
     this.restaurantes.push(result.restaurants);
-    /*https://ramdajs.com/docs/#flatten
-     Returns a new list by pulling every item out of it (and all its sub-arrays) and putting them in a new array, depth-first.*/
-    //this.allReviews = R.flatten(this.reviews);
   }
 
   loadData(event) {
     setTimeout(() => {
+      this.controlaLoad -= 1;
+      if (this.controlaLoad <= 0) {
+        this.disableInfinite = true;
+      }
       this.paginationStart += 20;
       this.getRestaurantByCCC();
       event.target.complete();
-    }, 500);
+    }, 2000);
   }
 
   initCurrent() {

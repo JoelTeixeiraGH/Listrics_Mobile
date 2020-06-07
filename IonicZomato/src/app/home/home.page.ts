@@ -1,5 +1,5 @@
 import { HomeService } from './home.service';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Photos } from './photos';
 import { PHOTOS } from './mocks';
@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
   sliderConfigTwo = {
     spaceBetween: 10,
     centeredSlides: true,
-    slidesPerView: 1.8,
+    slidesPerView: 2,
   };
 
   sliderConfigThree = {
@@ -64,15 +64,6 @@ export class HomePage implements OnInit {
     this.searchCuisines();
     this.searchRestaurants();
   }
-
-  /*
-  xdTestButton(xd: string, xdd: string, xddd: string) {
-    this.optionCity = xd;
-    this.optionCategory = xdd;
-    this.optionCuisine = xddd;
-    alert(this.optionCity + this.optionCategory + this.optionCuisine);
-  }
-  */
 
   searchCollections() {
     this.landingService

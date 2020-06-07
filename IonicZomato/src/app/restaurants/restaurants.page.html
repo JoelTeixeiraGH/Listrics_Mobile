@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-icon
+        [routerLink]="['/home/',cityText]"
+        name="chevron-back-outline"
+      ></ion-icon>
     </ion-buttons>
     <ion-title>Restaurants</ion-title>
   </ion-toolbar>
@@ -116,7 +119,11 @@
     </ion-card>
   </ion-list>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadData($event)"
+    [disabled]="disableInfinite"
+  >
     <ion-infinite-scroll-content loadingSpinner="bubbles">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
