@@ -31,6 +31,8 @@ export class RestaurantPage implements OnInit {
   firstTime = true;
   disableInfinite = false;
 
+  xDD = 0;
+
   segment = '';
 
   @Input() rating: number;

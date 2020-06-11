@@ -12,7 +12,9 @@
 </ion-header>
 
 <ion-content *ngIf="solorestaurante">
-  <ion-img [src]="solorestaurante.featured_image"></ion-img>
+  <ion-img
+    [src]="solorestaurante.featured_image ||'assets/imgs/wallpaper2.png'"
+  ></ion-img>
   <ion-item>
     <ion-label>{{solorestaurante.user_rating.aggregate_rating}}</ion-label>
     <ion-icon

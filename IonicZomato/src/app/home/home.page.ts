@@ -34,6 +34,8 @@ export class HomePage implements OnInit {
   optionCategory = '';
   optionCuisine = '';
 
+  xDD = 0;
+
   sliderConfig = {
     spaceBetween: 10,
     centeredSlides: true,
@@ -63,6 +65,10 @@ export class HomePage implements OnInit {
     this.searchCategories();
     this.searchCuisines();
     this.searchRestaurants();
+  }
+
+  poha() {
+    this.xDD = 1;
   }
 
   searchCollections() {

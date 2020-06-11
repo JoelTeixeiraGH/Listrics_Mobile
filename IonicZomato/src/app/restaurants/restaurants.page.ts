@@ -1,6 +1,7 @@
 import { RestaurantsService } from './restaurants.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as R from 'ramda';
 
 @Component({
   selector: 'app-restaurants',
@@ -9,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestaurantsPage implements OnInit {
   restaurantes = []; // Array dentro de array
-  allRestaurantes = []; // Lista de comentarios
+  allRestaurantes = []; //
   categorias: any;
   cozinhas: any;
   cityAndCategory: any;
@@ -33,6 +34,8 @@ export class RestaurantsPage implements OnInit {
 
   controlaLoad = 10000;
   firstTime = true;
+  firstChange = 1;
+  controlaChange = 0;
   disableInfinite = false;
 
   xdExpand = 0;
@@ -58,13 +61,31 @@ export class RestaurantsPage implements OnInit {
 
   selectCategory(category: string) {
     this.categoryQ = category;
+    this.restaurantes = [];
+    this.allRestaurantes = [];
     this.paginationStart = 0;
+    this.controlaLoad = 10000;
+    this.firstTime = true;
+    if (this.controlaChange === 2 || this.controlaChange === 1) {
+      this.controlaChange -= 1;
+    } else {
+      this.firstChange = 0;
+    }
     this.getRestaurantByCCC();
   }
 
   selectCuisine(cuisine: string) {
     this.cuisineQ = cuisine;
+    this.restaurantes = [];
+    this.allRestaurantes = [];
     this.paginationStart = 0;
+    this.controlaLoad = 10000;
+    this.firstTime = true;
+    if (this.controlaChange === 2 || this.controlaChange === 1) {
+      this.controlaChange -= 1;
+    } else {
+      this.firstChange = 0;
+    }
     this.getRestaurantByCCC();
   }
 
@@ -73,7 +94,14 @@ export class RestaurantsPage implements OnInit {
     this.categoryQ = '';
     this.categoryText = '';
     this.cuisineText = '';
+    this.restaurantes = [];
+    this.allRestaurantes = [];
     this.paginationStart = 0;
+    this.controlaLoad = 10000;
+    this.firstTime = true;
+    this.firstChange = 1;
+    this.controlaChange = 2;
+    this.disableInfinite = false;
     this.getRestaurantByCCC();
   }
 
@@ -96,9 +124,33 @@ export class RestaurantsPage implements OnInit {
     }
   }
 
+  selectCityByID(city: string) {
+    switch (city) {
+      case this.PORTO_ID:
+        this.cityID = this.PORTO_ID;
+        this.cityText = 'Porto';
+        break;
+      case this.LISBOA_ID:
+        this.cityID = this.LISBOA_ID;
+        this.cityText = 'Lisboa';
+        break;
+      case this.ALGARVE_ID:
+        this.cityID = this.ALGARVE_ID;
+        this.cityText = 'Algarve';
+        break;
+      default:
+        break;
+    }
+  }
+
   selectCityList(city: string) {
     this.selectCity(city);
+    this.restaurantes = [];
+    this.allRestaurantes = [];
     this.paginationStart = 0;
+    this.controlaLoad = 10000;
+    this.firstTime = true;
+    this.firstChange = 0;
     this.getRestaurantByCCC();
   }
 
@@ -112,7 +164,7 @@ export class RestaurantsPage implements OnInit {
         this.paginationCount
       )
       .subscribe((result) => {
-        this.restaurantes = result.restaurants;
+        this.xdPushas(result);
 
         if (this.firstTime && result.results_found <= 20) {
           this.controlaLoad = 0;
@@ -134,6 +186,12 @@ export class RestaurantsPage implements OnInit {
       });
   }
 
+  xdPushas(result) {
+    this.restaurantes.push(result.restaurants);
+    this.results = result.results_found;
+    this.allRestaurantes = R.flatten(this.restaurantes);
+  }
+
   getCategories() {
     this.restaurantService
       .getCategories()
@@ -146,20 +204,20 @@ export class RestaurantsPage implements OnInit {
       .subscribe((response) => (this.cozinhas = response));
   }
 
-  xdPushas(result) {
-    this.restaurantes.push(result.restaurants);
-  }
-
   loadData(event) {
     setTimeout(() => {
-      this.controlaLoad -= 1;
-      if (this.controlaLoad <= 0) {
-        this.disableInfinite = true;
+      if (this.firstChange === 1) {
+        this.controlaLoad -= 1;
+        if (this.controlaLoad <= 0) {
+          this.disableInfinite = true;
+        }
+        this.paginationStart += 20;
+        this.getRestaurantByCCC();
+      } else {
+        this.firstChange = 1;
       }
-      this.paginationStart += 20;
-      this.getRestaurantByCCC();
       event.target.complete();
-    }, 2000);
+    }, 3000);
   }
 
   initCurrent() {
@@ -167,21 +225,10 @@ export class RestaurantsPage implements OnInit {
     const idCategory = this.route.snapshot.paramMap.get('categoryQ');
     const idCuisine = this.route.snapshot.paramMap.get('cuisineQ');
 
-    id && this.selectCity(id);
+    this.selectCityByID(id);
     this.categoryQ = idCategory;
     this.cuisineQ = idCuisine;
 
-    this.restaurantService
-      .getRestaurantByCCC(
-        this.cityID,
-        this.categoryQ,
-        this.cuisineQ,
-        this.paginationStart,
-        this.paginationCount
-      )
-      .subscribe((result) => {
-        this.restaurantes = result.restaurants;
-        // pagination
-      });
+    this.getRestaurantByCCC();
   }
 }

@@ -11,13 +11,15 @@
 </ion-header>
 
 <ion-content>
-  <h4 class="centradoxd" *ngIf="results == 0">
+  <h4 class="centradoxd" *ngIf="results === 0">
     Sorry, no results found. <br />
     Try other filters.
   </h4>
-  <ion-list *ngFor="let restaurante of restaurantes">
+  <ion-list *ngFor="let restaurante of allRestaurantes">
     <ion-card>
-      <ion-img [src]="restaurante.restaurant.thumb"></ion-img>
+      <ion-img
+        [src]="restaurante.restaurant.thumb ||'assets/imgs/placeHolderListRestaurant.png'"
+      ></ion-img>
       <ion-card-header>
         <ion-card-subtitle
           >{{restaurante.restaurant.location.locality}}</ion-card-subtitle
@@ -134,7 +136,7 @@
       <ion-label>City</ion-label>
       <ion-select [(ngModel)]="cityText" (ionChange)="selectCityList(cityText)">
         <ion-select-option value="Porto">Porto</ion-select-option>
-        <ion-select-option value="Lisbon">Lisboa</ion-select-option>
+        <ion-select-option value="Lisbon">Lisbon</ion-select-option>
         <ion-select-option value="Algarve">Algarve</ion-select-option>
       </ion-select>
     </ion-item>
