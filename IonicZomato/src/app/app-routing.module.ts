@@ -34,6 +34,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'restaurant/:resID/:controlerHome',
+    loadChildren: () =>
+      import('./restaurant/restaurant.module').then(
+        (m) => m.RestaurantPageModule
+      ),
+  },
+  {
     path: 'restaurants/:city_id/:categoryQ/:cuisineQ',
     loadChildren: () =>
       import('./restaurants/restaurants.module').then(

@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
   optionCategory = '';
   optionCuisine = '';
 
-  xDD = 0;
+  controlerHome = '1';
 
   sliderConfig = {
     spaceBetween: 10,
@@ -65,10 +65,6 @@ export class HomePage implements OnInit {
     this.searchCategories();
     this.searchCuisines();
     this.searchRestaurants();
-  }
-
-  poha() {
-    this.xDD = 1;
   }
 
   searchCollections() {
@@ -146,5 +142,10 @@ export class HomePage implements OnInit {
   resetAfterRouting() {
     this.optionCategory = '';
     this.optionCuisine = '';
+  }
+
+  yControlerHome() {
+    this.controlerHome = '1';
+    console.log(this.controlerHome);
   }
 }

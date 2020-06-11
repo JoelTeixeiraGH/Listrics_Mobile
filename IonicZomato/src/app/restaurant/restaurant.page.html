@@ -2,7 +2,14 @@
   <ion-toolbar *ngIf="solorestaurante">
     <ion-buttons slot="start">
       <ion-icon
+        *ngIf="this.controlerHome != '1'"
         routerLink="/restaurants"
+        name="chevron-back-outline"
+      ></ion-icon>
+
+      <ion-icon
+        *ngIf="this.controlerHome === '1'"
+        routerLink="/home"
         name="chevron-back-outline"
       ></ion-icon>
     </ion-buttons>

@@ -111,7 +111,10 @@
   <ion-slides [options]="sliderConfigTwo" *ngIf="restaurants">
     <ion-slide *ngFor="let restaurante of restaurants.restaurants">
       <ion-card class="xdIon-cardB">
-        <a routerLink="/restaurant/{{ restaurante.restaurant.id }}">
+        <a
+          (click)="yControlerHome()"
+          [routerLink]="['/restaurant',restaurante.restaurant.id,controlerHome]"
+        >
           <ion-img
             class="xdSizeImage"
             [src]="restaurante.restaurant.thumb"

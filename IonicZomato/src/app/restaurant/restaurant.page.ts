@@ -31,7 +31,7 @@ export class RestaurantPage implements OnInit {
   firstTime = true;
   disableInfinite = false;
 
-  xDD = 0;
+  controlerHome = '0';
 
   segment = '';
 
@@ -50,6 +50,7 @@ export class RestaurantPage implements OnInit {
     this.initCurrentSoloRestaurant();
     this.searchReviews();
     this.searchDailyMenu();
+    this.controlaRouting();
   }
 
   searchReviews() {
@@ -93,20 +94,11 @@ export class RestaurantPage implements OnInit {
     );
   }
 
-  // https://medium.com/@mikeyny/creating-an-angular-ionic-rating-component-e616f3e11300
-
-  // function used to change the value of our rating
-  // triggered when user, clicks a star to change the rating
   rate(index: number) {
     this.rating = index;
     this.ratingChange.emit(this.rating);
   }
 
-  /* function to return the color of a star based on what
-     index it is. All stars greater than the index are assigned
-     a grey color , while those equal or less than the rating are
-     assigned a color depending on the rating. Using the following criteria:
-    */
   getColor(index: number) {
     enum COLORS {
       GREY = '#E0E0E0',
@@ -133,8 +125,6 @@ export class RestaurantPage implements OnInit {
     }
   }
 
-  // returns whether or not the selected index is above ,the current rating
-  // function is called from the getColor function.
   isAboveRating(index: number): boolean {
     return index > this.rating;
   }
@@ -155,6 +145,12 @@ export class RestaurantPage implements OnInit {
         this.solorestaurante = response;
         this.parseHours(response.timings);
       });
+  }
+
+  controlaRouting() {
+    const controler = this.route.snapshot.paramMap.get('controlerHome');
+    this.controlerHome = controler;
+    console.log(this.controlerHome);
   }
 
   loadData(event) {
