@@ -117,7 +117,7 @@
         >
           <ion-img
             class="xdSizeImage"
-            [src]="restaurante.restaurant.thumb"
+            [src]="restaurante.restaurant.thumb || 'assets/imgs/placeHolderListRestaurant.png'"
           ></ion-img>
           <p>{{ restaurante.restaurant.name }}</p>
         </a>
