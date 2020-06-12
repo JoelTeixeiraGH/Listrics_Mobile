@@ -10,7 +10,7 @@ import * as R from 'ramda';
 })
 export class RestaurantsPage implements OnInit {
   restaurantes = []; // Array dentro de array
-  allRestaurantes = []; //
+  allRestaurantes = []; // Lista de restaurantes
   categorias: any;
   cozinhas: any;
   cityAndCategory: any;
@@ -27,7 +27,6 @@ export class RestaurantsPage implements OnInit {
   cuisineText = '';
 
   pages: number[];
-  currentPage = 1;
   paginationStart = 0;
   paginationCount = 20;
   results = 100;
@@ -46,6 +45,7 @@ export class RestaurantsPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.resetFiltersTwo();
     this.initCurrent();
     this.getCategories();
     this.getCuisines();
@@ -71,6 +71,7 @@ export class RestaurantsPage implements OnInit {
     } else {
       this.firstChange = 0;
     }
+    console.log('ca' + this.controlaChange);
     this.getRestaurantByCCC();
   }
 
@@ -86,6 +87,7 @@ export class RestaurantsPage implements OnInit {
     } else {
       this.firstChange = 0;
     }
+    console.log('c' + this.controlaChange);
     this.getRestaurantByCCC();
   }
 
@@ -103,6 +105,21 @@ export class RestaurantsPage implements OnInit {
     this.controlaChange = 2;
     this.disableInfinite = false;
     this.getRestaurantByCCC();
+  }
+
+  resetFiltersTwo() {
+    this.cuisineQ = '';
+    this.categoryQ = '';
+    this.categoryText = '';
+    this.cuisineText = '';
+    this.restaurantes = [];
+    this.allRestaurantes = [];
+    this.paginationStart = 0;
+    this.controlaLoad = 10000;
+    this.firstTime = true;
+    this.firstChange = 1;
+    this.controlaChange = 2;
+    this.disableInfinite = false;
   }
 
   selectCity(city: string) {
@@ -132,7 +149,7 @@ export class RestaurantsPage implements OnInit {
         break;
       case this.LISBOA_ID:
         this.cityID = this.LISBOA_ID;
-        this.cityText = 'Lisboa';
+        this.cityText = 'Lisbon';
         break;
       case this.ALGARVE_ID:
         this.cityID = this.ALGARVE_ID;
@@ -216,6 +233,7 @@ export class RestaurantsPage implements OnInit {
       } else {
         this.firstChange = 1;
       }
+      debugger;
       event.target.complete();
     }, 3000);
   }

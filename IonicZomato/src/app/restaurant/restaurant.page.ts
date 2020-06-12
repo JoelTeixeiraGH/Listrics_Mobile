@@ -150,7 +150,6 @@ export class RestaurantPage implements OnInit {
   controlaRouting() {
     const controler = this.route.snapshot.paramMap.get('controlerHome');
     this.controlerHome = controler;
-    console.log(this.controlerHome);
   }
 
   loadData(event) {

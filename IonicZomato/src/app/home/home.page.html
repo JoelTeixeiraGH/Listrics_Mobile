@@ -112,7 +112,6 @@
     <ion-slide *ngFor="let restaurante of restaurants.restaurants">
       <ion-card class="xdIon-cardB">
         <a
-          (click)="yControlerHome()"
           [routerLink]="['/restaurant',restaurante.restaurant.id,controlerHome]"
         >
           <ion-img

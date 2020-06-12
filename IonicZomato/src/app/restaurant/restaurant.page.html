@@ -20,10 +20,15 @@
 
 <ion-content *ngIf="solorestaurante">
   <ion-img
+    class="cropRestaurant"
     [src]="solorestaurante.featured_image ||'assets/imgs/wallpaper2.png'"
   ></ion-img>
   <ion-item>
-    <ion-label>{{solorestaurante.user_rating.aggregate_rating}}</ion-label>
+    <ion-label
+      >{{solorestaurante.user_rating.aggregate_rating}}<span class="votesText">
+        ({{solorestaurante.user_rating.votes}} Reviews)</span
+      >
+    </ion-label>
     <ion-icon
       name="star-outline"
       *ngIf="solorestaurante.user_rating.aggregate_rating >= 0 && 0.4 >= solorestaurante.user_rating.aggregate_rating "

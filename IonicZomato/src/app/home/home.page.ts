@@ -143,9 +143,4 @@ export class HomePage implements OnInit {
     this.optionCategory = '';
     this.optionCuisine = '';
   }
-
-  yControlerHome() {
-    this.controlerHome = '1';
-    console.log(this.controlerHome);
-  }
 }

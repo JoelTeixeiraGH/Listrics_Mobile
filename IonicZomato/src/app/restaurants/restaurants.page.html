@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-icon
+        (click)="resetFiltersTwo"
         [routerLink]="['/home/',cityText]"
         name="chevron-back-outline"
       ></ion-icon>
@@ -31,8 +32,12 @@
       </ion-card-header>
       <ion-item>
         <ion-label
-          >{{restaurante.restaurant.user_rating.aggregate_rating}}</ion-label
-        >
+          >{{restaurante.restaurant.user_rating.aggregate_rating}}<span
+            class="votesText"
+          >
+            ({{restaurante.restaurant.user_rating.votes}} Reviews)</span
+          >
+        </ion-label>
         <ion-icon
           name="star-outline"
           *ngIf="restaurante.restaurant.user_rating.aggregate_rating >= 0 && 0.4 >= restaurante.restaurant.user_rating.aggregate_rating "
