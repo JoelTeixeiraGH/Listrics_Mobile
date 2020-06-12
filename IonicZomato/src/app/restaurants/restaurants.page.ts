@@ -33,7 +33,6 @@ export class RestaurantsPage implements OnInit {
 
   controlaLoad = 10000;
   firstTime = true;
-  firstChange = 1;
   controlaChange = 0;
   disableInfinite = false;
 
@@ -47,7 +46,6 @@ export class RestaurantsPage implements OnInit {
   ngOnInit(): void {
     this.resetFiltersTwo();
     this.initCurrent();
-    debugger;
     this.getCategories();
     this.getCuisines();
   }
@@ -67,12 +65,6 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
-    if (this.controlaChange === 2 || this.controlaChange === 1) {
-      this.controlaChange -= 1;
-    } else {
-      this.firstChange = 0;
-    }
-    console.log('ca' + this.controlaChange);
     this.getRestaurantByCCC();
   }
 
@@ -83,14 +75,6 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
-    /*
-    if (this.controlaChange === 2 || this.controlaChange === 1) {
-      this.controlaChange -= 1;
-    } else {
-      this.firstChange = 0;
-    }
-    */
-    //console.log('c' + this.controlaChange);
     this.getRestaurantByCCC();
   }
 
@@ -104,8 +88,6 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
-    this.firstChange = 1;
-    //this.controlaChange = 2;
     this.disableInfinite = false;
     this.getRestaurantByCCC();
   }
@@ -120,8 +102,6 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
-    this.firstChange = 1;
-    //this.controlaChange = 2;
     this.disableInfinite = false;
   }
 
@@ -170,7 +150,6 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
-    this.firstChange = 0;
     this.getRestaurantByCCC();
   }
 
@@ -226,18 +205,12 @@ export class RestaurantsPage implements OnInit {
 
   loadData(event) {
     setTimeout(() => {
-      //if (this.firstChange === 1) {
-      //this.controlaLoad -= 1;
+      this.controlaLoad -= 1;
       if (this.controlaLoad <= 0) {
         this.disableInfinite = true;
-      } else {
-        this.paginationStart += 20;
-        this.getRestaurantByCCC();
       }
-      // } else {
-      // this.firstChange = 1;
-      //}
-      debugger;
+      this.paginationStart += 20;
+      this.getRestaurantByCCC();
       event.target.complete();
     }, 3000);
   }
