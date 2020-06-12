@@ -99,7 +99,7 @@
   <ion-slides [options]="sliderConfigThree">
     <ion-slide *ngFor="let photo of photos">
       <ion-card class="xdIon-card">
-        <a [routerLink]="['/restaurants',city_text,photo.id]">
+        <a [routerLink]="['/restaurants',cityID,photo.id]">
           <img [src]="photo.image" />
           <p>{{photo.name}}</p>
         </a>

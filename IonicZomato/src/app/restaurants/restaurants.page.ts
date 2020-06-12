@@ -47,6 +47,7 @@ export class RestaurantsPage implements OnInit {
   ngOnInit(): void {
     this.resetFiltersTwo();
     this.initCurrent();
+    debugger;
     this.getCategories();
     this.getCuisines();
   }
@@ -82,12 +83,14 @@ export class RestaurantsPage implements OnInit {
     this.paginationStart = 0;
     this.controlaLoad = 10000;
     this.firstTime = true;
+    /*
     if (this.controlaChange === 2 || this.controlaChange === 1) {
       this.controlaChange -= 1;
     } else {
       this.firstChange = 0;
     }
-    console.log('c' + this.controlaChange);
+    */
+    //console.log('c' + this.controlaChange);
     this.getRestaurantByCCC();
   }
 
@@ -102,7 +105,7 @@ export class RestaurantsPage implements OnInit {
     this.controlaLoad = 10000;
     this.firstTime = true;
     this.firstChange = 1;
-    this.controlaChange = 2;
+    //this.controlaChange = 2;
     this.disableInfinite = false;
     this.getRestaurantByCCC();
   }
@@ -118,7 +121,7 @@ export class RestaurantsPage implements OnInit {
     this.controlaLoad = 10000;
     this.firstTime = true;
     this.firstChange = 1;
-    this.controlaChange = 2;
+    //this.controlaChange = 2;
     this.disableInfinite = false;
   }
 
@@ -223,16 +226,17 @@ export class RestaurantsPage implements OnInit {
 
   loadData(event) {
     setTimeout(() => {
-      if (this.firstChange === 1) {
-        this.controlaLoad -= 1;
-        if (this.controlaLoad <= 0) {
-          this.disableInfinite = true;
-        }
+      //if (this.firstChange === 1) {
+      //this.controlaLoad -= 1;
+      if (this.controlaLoad <= 0) {
+        this.disableInfinite = true;
+      } else {
         this.paginationStart += 20;
         this.getRestaurantByCCC();
-      } else {
-        this.firstChange = 1;
       }
+      // } else {
+      // this.firstChange = 1;
+      //}
       debugger;
       event.target.complete();
     }, 3000);
